@@ -1,9 +1,10 @@
 #include <ncurses.h>	 
 #include <string.h> 
 #include "headerSnake.h"
+#include <iostream>
 
 int main()
 {
-    bougerSerpent();
+    initJeuSnake();
     return 0;
 }

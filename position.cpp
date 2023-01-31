@@ -6,7 +6,7 @@
 
 extern int row,col;
 
-void bougerSerpent(){
+void initJeuSnake(){
     curs_set(0); //rendre le curseur invisible
     initEcran();
     noecho(); //on affiche pas la touche récupérée sur le clavier 
@@ -34,37 +34,5 @@ void majSerpent(pointSerpent tete){
         temp = temp->suivant;
     }
 
-    /*switch(c){
-        case'z':  
-            affichagePoint('S',tete.x,tete.y);
-            break; 
-        case'q':
-            affichagePoint('S',tete.x,tete.y); 
-            break;
-        case's':
-            affichagePoint('S',tete.x,tete.y);
-            break;
-        case'd':
-            affichagePoint('S',tete.x,tete.y);
-            break;
-            // if pour la pomme
-    }
-    */
 }
 }
-/*
-void affichagePoint(char typePoint, int x, int y){
-    //on détermine d'abord le type de point à imprimer
-    switch(typePoint){ 
-        //arobase pour la pomme,
-        case 'P':
-            mvaddch(x,y,'@');
-        //caractère noir pour le serpent, 
-        case 'S':
-            mvaddch(x,y,'*');
-        //et vide pour le vide 
-        case ' ':
-            mvaddch(x,y,' ');
-    }
-}
-*/

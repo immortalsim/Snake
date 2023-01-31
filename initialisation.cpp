@@ -3,43 +3,63 @@
 #include "headerSnake.h"
 #include <chrono>
 #include <thread>
+#include <cstdlib>
+#include <stdlib.h>
 
-int row,col; 
+int row,col;
+int pommex,pommey;
+int score; 
 
 void initEcran(){
     initscr(); //initialisation de l'écran 
     noecho(); //enlever les caractères parasites de l'écran 
     nodelay(stdscr, TRUE);
-    getmaxyx(stdscr, row, col); //initialisation variable colonnes et rangées
+    getmaxyx(stdscr, row, col); //initialisation valeur de colonnes et lignes
+    pommex = rand() % row; 
+    pommey = rand() % col;
 }
 
 void calculMouv(pointSerpent* Noeud,char c){
     using namespace std::this_thread;
     using namespace std::chrono;
     int tempx1,tempx2,tempy1,tempy2;
+    bool pomme = true;
     switch(c){
         case 'z':
             while(true){
-                tempx1 = Noeud->x; 
+                tempx1 = Noeud->x;
                 tempy1 = Noeud->y;
                 if(Noeud->x > 0){
                     Noeud->x--;
                 }
                 else{
-                    Noeud->x = row;
+                    gameOver(score);
                 }
+                
+                if(Noeud->x == pommex && Noeud->y == pommey){
+                    pomme = false;
+                    reinitSerpent(Noeud);
+                    score++;
+                }
+                else{
+                    pomme = true;
+                } 
                 pointSerpent* temp = Noeud;
                 while(temp->suivant != NULL){
-                    temp = temp->suivant; 
+                    temp = temp->suivant;
+                    if(temp->x == Noeud->x && temp->y == Noeud->y){
+                        gameOver(score);
+                    }
                     tempx2 = temp->x;
                     tempy2 = temp->y; 
                     temp->x = tempx1; 
                     temp->y = tempy1;
                     tempx1 = tempx2;
-                    tempy1 = tempy2; 
+                    tempy1 = tempy2;
+
                 }
-                majEcran(Noeud);
-                sleep_for(200ms);
+                majEcran(Noeud,pomme);
+                sleep_for(150ms);
                 if ((c = getch()) != ERR){
                     if(c == 'a'){
                         reinitSerpent(Noeud);
@@ -58,11 +78,22 @@ void calculMouv(pointSerpent* Noeud,char c){
                     Noeud->y--;
                 }
                 else{
-                    Noeud->y = col;
+                    gameOver(score);
+                }
+                if(Noeud->x == pommex && Noeud->y == pommey){
+                    pomme = false;
+                    reinitSerpent(Noeud);
+                    score++;
+                }
+                else{
+                    pomme = true; 
                 }
                 pointSerpent* temp = Noeud;
                 while(temp->suivant != NULL){
                     temp = temp->suivant; 
+                    if(temp->x == Noeud->x && temp->y == Noeud->y){
+                        gameOver(score);
+                    }
                     tempx2 = temp->x;
                     tempy2 = temp->y; 
                     temp->x = tempx1; 
@@ -70,8 +101,8 @@ void calculMouv(pointSerpent* Noeud,char c){
                     tempx1 = tempx2;
                     tempy1 = tempy2; 
                 }
-                majEcran(Noeud);
-                sleep_for(200ms);
+                majEcran(Noeud,pomme);
+                sleep_for(150ms);
                 if ((c = getch()) != ERR){
                     calculMouv(Noeud, c);
                 }
@@ -85,11 +116,22 @@ void calculMouv(pointSerpent* Noeud,char c){
                     Noeud->x++; 
                 }
                 else{
-                    Noeud->x = 0;
+                    gameOver(score);
+                }
+                if(Noeud->x == pommex && Noeud->y == pommey){
+                    pomme = false;
+                    reinitSerpent(Noeud);
+                    score++;
+                }
+                else{
+                    pomme = true; 
                 }
                 pointSerpent* temp = Noeud;
                 while(temp->suivant != NULL){
                     temp = temp->suivant; 
+                    if(Noeud->x == temp->x && Noeud->y == temp->y){
+                        gameOver(score);
+                    }
                     tempx2 = temp->x;
                     tempy2 = temp->y; 
                     temp->x = tempx1; 
@@ -97,8 +139,8 @@ void calculMouv(pointSerpent* Noeud,char c){
                     tempx1 = tempx2;
                     tempy1 = tempy2; 
                 }
-                majEcran(Noeud);
-                sleep_for(200ms);
+                majEcran(Noeud,pomme);
+                sleep_for(150ms);
                 if((c = getch()) != ERR){
                     calculMouv(Noeud,c);
                 }
@@ -112,11 +154,22 @@ void calculMouv(pointSerpent* Noeud,char c){
                     Noeud->y++;
                 }
                 else{ 
-                    Noeud->y = 0;
+                    gameOver(score);
+                }
+                if(Noeud->x == pommex && Noeud->y == pommey){
+                    pomme = false;
+                    reinitSerpent(Noeud);
+                    score++;
+                }
+                else{
+                    pomme = true; 
                 }
                 pointSerpent* temp = Noeud;
                 while(temp->suivant != NULL){
                     temp = temp->suivant; 
+                    if(temp->x == Noeud->x && temp->y == Noeud->y){
+                        gameOver(score);
+                    }
                     tempx2 = temp->x;
                     tempy2 = temp->y; 
                     temp->x = tempx1; 
@@ -124,8 +177,8 @@ void calculMouv(pointSerpent* Noeud,char c){
                     tempx1 = tempx2;
                     tempy1 = tempy2; 
                 }
-                majEcran(Noeud);
-                sleep_for(200ms);
+                majEcran(Noeud,pomme);
+                sleep_for(150ms);
                 if((c = getch()) != ERR){
                     calculMouv(Noeud,c);
                 }
@@ -195,7 +248,7 @@ void reinitSerpent(pointSerpent* tete){
 return;
 }
 
-void majEcran(pointSerpent* tete){
+void majEcran(pointSerpent* tete, bool pomme){
     wclear(stdscr);
     pointSerpent* temp = tete;
     mvprintw(temp->x, temp->y,"+");
@@ -205,6 +258,21 @@ void majEcran(pointSerpent* tete){
         mvprintw(temp->x, temp->y,"+");
         refresh();
     }
+    if(pomme){
+        mvprintw(pommex,pommey,"O");
+        refresh();
+    }
+    else{
+        pommex = std::rand() % row; 
+        pommey = std::rand() % col;
+        mvprintw(pommex,pommey,"O");
+        refresh();
+    }
 }
  
+void gameOver(int score){
 
+    endwin(); 
+    std::cout << "bravo ! tu finis avec " << score << " points\n";
+    exit(0);
+}
